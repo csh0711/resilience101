@@ -22,6 +22,7 @@ class TransactionLogServiceAccessor(
         .baseUrl("http://localhost:8082")
         .build()
 
+    @Retry(name = "sendTransaction")
     fun sendTransaction(order: Order): UUID? {
         log.info { "Sending transaction for [$order]." }
         val result = webClient
