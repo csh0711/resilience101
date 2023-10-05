@@ -1,2 +1,13 @@
 server:
   port: 8081
+
+resilience4j:
+  retry:
+    instances:
+      sendTransaction: # Two retries: First 1s after initial failure, second 5s after second failure
+        max-attempts: 3
+        wait-duration: 1s
+        enable-exponential-backoff: true
+        exponential-backoff-multiplier: 5
+        retry-exceptions:
+          - org.springframework.web.reactive.function.client.WebClientRequestException
