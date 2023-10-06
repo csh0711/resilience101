@@ -1,7 +1,7 @@
 package info.novatec.order
 
 import io.github.oshai.kotlinlogging.KotlinLogging.logger
-import io.github.resilience4j.retry.annotation.Retry
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker
 import org.springframework.http.client.reactive.ReactorClientHttpConnector
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
@@ -22,6 +22,7 @@ class TransactionLogServiceAccessor(
         .baseUrl("http://localhost:8082")
         .build()
 
+    @CircuitBreaker(name = "sendTransaction", fallbackMethod = "sendTransactionFallback")
     fun sendTransaction(order: Order): UUID? {
         log.info { "Sending transaction for [$order]." }
         val result = webClient
@@ -37,6 +38,12 @@ class TransactionLogServiceAccessor(
             }
             .block()
         return result?.transactionId
+    }
+
+    fun sendTransactionFallback(order: Order, ex: Throwable): UUID? {
+        log.warn(ex) { "Using fallback for sending transaction for [$order]." }
+        // TODO: Implement fallback
+        return null
     }
 
     private fun Order.toTransactionLog() = TransactionLog(
