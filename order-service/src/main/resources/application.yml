@@ -1,2 +1,10 @@
 server:
   port: 8081
+resilience4j:
+  circuitbreaker:
+    instances:
+      sendTransaction:
+        sliding-window-type: count_based
+        sliding-window-size: 1
+        failure-rate-threshold: 100
+        wait-duration-in-open-state: 1ms
