@@ -1,10 +1,10 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-	id("org.springframework.boot") version "3.1.4"
-	id("io.spring.dependency-management") version "1.1.3"
-	kotlin("jvm") version "1.8.22"
-	kotlin("plugin.spring") version "1.8.22"
+	id("org.springframework.boot") version "3.2.1"
+	id("io.spring.dependency-management") version "1.1.2"
+	kotlin("jvm") version "1.9.0"
+	kotlin("plugin.spring") version "1.9.0"
 }
 
 group = "info.novatec"
@@ -25,8 +25,8 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
-	implementation("io.github.oshai:kotlin-logging-jvm:5.1.0")
-	implementation("io.github.resilience4j:resilience4j-spring-boot2:2.1.0")
+	implementation("io.github.oshai:kotlin-logging-jvm:6.0.3")
+	implementation("io.github.resilience4j:resilience4j-spring-boot2:2.2.0")
 
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 
