@@ -10,4 +10,4 @@ resilience4j:
         enable-exponential-backoff: true
         exponential-backoff-multiplier: 5
         retry-exceptions:
-          - org.springframework.web.reactive.function.client.WebClientRequestException
+          - org.springframework.web.reactive.function.client.WebClientResponseException
