@@ -2,7 +2,7 @@
 
 This repository contains examples for the [Resilience4j](https://resilience4j.readme.io/) library. 
 The examples are written in [Kotlin](https://kotlinlang.org/) and 
-use [Spring Boot Annotations of Resilience4J](https://resilience4j.readme.io/docs/getting-started-3).
+use the [Spring Boot Annotations of Resilience4J](https://resilience4j.readme.io/docs/getting-started-3).
 
 ## Scenario
 Two services are involved in the scenario, the **order-service** and the **transaction-log-service**:
@@ -16,11 +16,11 @@ The **order-service** calls synchronously the **transaction-log-service** to log
 ### Start the applications
 The following command will start the **order-service** on port `8081`:
 ```shell script
-cd order-service &&./gradlew bootRun
+cd order-service &&./gradlew bootRun --parallel
 ```
 And the **transaction-log-service** on port `8082`:
 ```shell script
-cd transaction-log-service &&./gradlew bootRun
+cd transaction-log-service &&./gradlew bootRun --parallel
 ```
 
 ### Execute requests
