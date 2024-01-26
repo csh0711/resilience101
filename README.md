@@ -24,10 +24,10 @@ cd transaction-log-service &&./gradlew bootRun --parallel
 ```
 
 ### Execute requests
-The following command will do a `POST` request to the `/orders`endpoint every 0.5 seconds 
+The following command will do a `POST` request to the `/orders`endpoint every second 
 and pretty print the response's payload:
 ```shell script
-watch -n 0.5 "curl --request POST 'http://localhost:8081/orders' \
+watch -n 1 "curl --request POST 'http://localhost:8081/orders' \
 --header 'Content-Type: application/json' \
 --data-raw '
 {

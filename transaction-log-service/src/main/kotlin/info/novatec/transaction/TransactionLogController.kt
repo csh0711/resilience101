@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import java.util.*
 import java.util.UUID.randomUUID
+import kotlin.random.Random.Default.nextBoolean
 
 @RestController
 class TransactionLogController {
@@ -14,6 +15,10 @@ class TransactionLogController {
 
     @PostMapping("/transactions")
     fun createTransactionLog(@RequestBody transaction: Transaction): Result {
+        if (doesFail()) {
+            log.error { "Failed to create transaction log" }
+            error("Failed to create transaction log")
+        }
         val transactionId = randomUUID()
         val enrichedTransaction = transaction.copy(transactionId = transactionId)
         log.info { "Received transaction [$enrichedTransaction]" }
@@ -21,5 +26,7 @@ class TransactionLogController {
     }
 
     data class Result(val transactionId: UUID)
+
+    fun doesFail() = nextBoolean()
 }
 
