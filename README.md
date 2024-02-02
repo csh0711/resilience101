@@ -43,9 +43,9 @@ curl --request POST 'http://localhost:8081/orders' \
 ' | json_pp
 ```
 
-If you need a repeating `POST` request, e.g. every second, you could wrap it in a `watch` command:
+If you need a repeating `POST` request, e.g. every half second, you could wrap it in a `watch` command:
 ```shell script
-watch -n 1 "curl --request POST 'http://localhost:8081/orders' \
+watch -n 0.5 "curl --request POST 'http://localhost:8081/orders' \
 --header 'Content-Type: application/json' \
 --data-raw '
 {
@@ -61,3 +61,9 @@ watch -n 1 "curl --request POST 'http://localhost:8081/orders' \
 ' | json_pp"
 ```
 (You might have to install `curl` and `watch`, e.g. on macOS with `brew install curl`and `brew install watch`.)
+
+Alternatively you could use `ab` of [Apache Bench](https://httpd.apache.org/docs/2.4/programs/ab.html) to do 
+a tiny load test. There's already a `post.json` file provided in the project's root directory.
+```shell script
+ab -T 'application/json' -n 20 -v 4 -p post.json http://localhost:8081/orders
+```
