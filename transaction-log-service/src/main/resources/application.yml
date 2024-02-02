@@ -1,2 +1,5 @@
 server:
   port: 8082
+transaction-log-service:
+  feature-toggles:
+    fail-pseudo-randomly: false

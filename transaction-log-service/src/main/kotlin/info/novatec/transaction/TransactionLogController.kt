@@ -1,6 +1,7 @@
 package info.novatec.transaction
 
 import io.github.oshai.kotlinlogging.KotlinLogging.logger
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
@@ -9,13 +10,14 @@ import java.util.UUID.randomUUID
 import kotlin.random.Random.Default.nextBoolean
 
 @RestController
-class TransactionLogController {
-
+class TransactionLogController(
+    @Value("\${transaction-log-service.feature-toggles.fail-pseudo-randomly:false}") val failPseudoRandomly: Boolean
+) {
     private val log = logger {}
 
     @PostMapping("/transactions")
     fun createTransactionLog(@RequestBody transaction: Transaction): Result {
-        if (doesFail()) {
+        if (failPseudoRandomly && doesFail()) {
             log.error { "Failed to create transaction log" }
             error("Failed to create transaction log")
         }
