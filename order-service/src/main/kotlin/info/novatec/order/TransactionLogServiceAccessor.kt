@@ -1,7 +1,6 @@
 package info.novatec.order
 
 import io.github.oshai.kotlinlogging.KotlinLogging.logger
-import io.github.resilience4j.ratelimiter.annotation.RateLimiter
 import org.springframework.http.client.reactive.ReactorClientHttpConnector
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
@@ -22,7 +21,6 @@ class TransactionLogServiceAccessor(
         .baseUrl("http://localhost:8082")
         .build()
 
-    @RateLimiter(name = "sendTransaction")
     fun sendTransaction(order: Order): UUID? {
         log.info { "Sending transaction for [$order]." }
         val result = webClient

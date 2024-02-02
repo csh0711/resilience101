@@ -3,7 +3,7 @@ server:
 resilience4j:
   ratelimiter:
     instances:
-      sendTransaction:
+      placeOrder:
         limitForPeriod: 5
         limitRefreshPeriod: 5s
         timeoutDuration: 2s
