@@ -11,16 +11,13 @@ import kotlin.random.Random.Default.nextBoolean
 
 @RestController
 class TransactionLogController(
-    @Value("\${transaction-log-service.feature-toggles.fail-pseudo-randomly:false}") val failPseudoRandomly: Boolean
+    @Value("\${transaction-log-service.feature-toggles.might-fail:false}") val mightFail: Boolean
 ) {
     private val log = logger {}
 
     @PostMapping("/transactions")
     fun createTransactionLog(@RequestBody transaction: Transaction): Result {
-        if (failPseudoRandomly && doesFail()) {
-            log.error { "Failed to create transaction log" }
-            error("Failed to create transaction log")
-        }
+        failPseudoRandomly()
         val transactionId = randomUUID()
         val enrichedTransaction = transaction.copy(transactionId = transactionId)
         log.info { "Received transaction [$enrichedTransaction]" }
@@ -29,6 +26,11 @@ class TransactionLogController(
 
     data class Result(val transactionId: UUID)
 
-    fun doesFail() = nextBoolean()
+    fun failPseudoRandomly() {
+        if (mightFail && nextBoolean()) {
+            log.error { "Failed to create transaction log" }
+            error("Failed to create transaction log")
+        }
+    }
 }
 
