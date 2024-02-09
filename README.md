@@ -9,7 +9,22 @@ Two services are involved in the scenario, the **order-service** and the **trans
 
 <img src="scenario.png" alt="Scenario" width="500"/>
 
-The **order-service** calls synchronously the **transaction-log-service** to log the created order. This call can fail.
+The **order-service** calls synchronously the **transaction-log-service** to log the created order 
+and relies on its response. However, this call can fail.
+
+## Switch to the different pattern implementations
+For each implemented resilience pattern there's a separate Git branch to be checked out. 
+The following branches are available:
+- [**master**](https://github.com/csh0711/resilience101): 
+  The initial state of the example, no resilience pattern is applied.
+- [**retry**](https://github.com/csh0711/resilience101/tree/retry): 
+  Shows how the retry pattern might be applied.
+- [**rateLimiter**](https://github.com/csh0711/resilience101/tree/rateLimiter): 
+  Shows how the rate limiter pattern might be applied.
+- [**circuitBreaker**](https://github.com/csh0711/resilience101/tree/circuitBreaker): 
+  Shows how the circuit breaker pattern might be applied.
+- [**fallback**](https://github.com/csh0711/resilience101/tree/fallback):
+  Shows how the fallback pattern might be applied.
 
 ## Run the example
 
@@ -21,6 +36,15 @@ cd order-service &&./gradlew bootRun --parallel
 And the **transaction-log-service** on port `8082`:
 ```shell script
 cd transaction-log-service &&./gradlew bootRun --parallel
+```
+
+### Make the transaction-log-service fail
+The **transaction-log-service** can be made to fail pseudo-randomly by setting the  `might-fail` 
+property in the `application.yml` to `true`:
+```yaml
+transaction-log-service:
+  feature-toggles:
+    might-fail: true
 ```
 
 ### Execute requests
